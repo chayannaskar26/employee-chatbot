@@ -1,12 +1,13 @@
 from ingestion.loader import getDocuments
-from langchain_text_splitters import CharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 def splitDocument():
     documents = getDocuments()
 
-    text_splitter = CharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=200
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=800,
+        chunk_overlap=150,
+        separators=["\n\n", "\n", ".", " ", ""]
     )
 
     doc_chunks = text_splitter.split_documents(documents)

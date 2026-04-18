@@ -20,9 +20,11 @@ function sendMessage() {
     ws.send(text);
 
     input.value = "";
+    showTyping();
 }
 
 ws.onmessage = function (event) {
+    removeTyping(); 
     addMessage(event.data, "bot");
 };
 
@@ -32,3 +34,28 @@ document.getElementById("messageInput").addEventListener("keypress", function (e
         sendMessage();
     }
 });
+
+let typingElement = null;
+
+// Show typing animation
+function showTyping() {
+    typingElement = document.createElement("div");
+    typingElement.className = "typing";
+
+    typingElement.innerHTML = `
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    `;
+
+    chatBox.appendChild(typingElement);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// Remove typing animation
+function removeTyping() {
+    if (typingElement) {
+        chatBox.removeChild(typingElement);
+        typingElement = null;
+    }
+}
